@@ -1,0 +1,55 @@
+import array
+from numpy import * 
+import numpy
+
+class EditDistance:
+  def edit(top,bot):
+    topInt = [];        ## array for top
+    botInt = [];        ## array for bot
+    for i in range (len(top)):
+      topInt.append(i);
+    for i in range (len(bot)):
+      botInt.append(i);
+  
+    y = array([0] * (len(top)) * (len(bot)));
+    a = reshape(y,((len(top)) ,(len(bot))));
+    x = array([0] * (len(top)) * (len(bot)))
+    d = reshape(x,((len(top)) ,(len(bot))));
+
+    #print(d);
+    #print(a);
+    #print(top);
+    #print(bot);
+    #print(len(topInt));
+    #print(len(botInt));
+    
+    for i in range(len(top)): 
+      d[i,0] = i;
+      a[i,0] = 3;
+      #print(d);
+      #print(a);
+    for j in range(len(bot)):
+      d[0,j] = j;
+      a[0,j] = 2;
+      #print(d);
+      #print(a);
+    for i in range(len(top)):
+      for j in range(len(bot)):
+        if top[i] == bot[j]:
+          d[i,j] = d[i-1,j-1];
+          a[i,j] = 0;
+        else:
+          d[i,j] = 1 + min(d[i,j-1],d[i-1,j],d[i-1,j-1]);
+          if d[i,j] == d[i-1,j-1] + 1:
+              a[i,j] = 1;
+          elif min(d[i,j-1],d[i-1,j],d[i-1,j-1]) == d[i,j-1] + 1:
+            a[i,j] = 2;
+          else:
+            a[i,j] = 3;
+
+    print(*d);
+    print(*a);
+    print(d);
+    print(a);
+         
+ 
